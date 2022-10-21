@@ -35,9 +35,8 @@ def crawling_seoul_climate(api_key:str, start_day:str, end_day:str) -> pd.DataFr
                 list_of_df.append(df)
         
 
-    df_accum = pd.concat(list_of_df, axis=1) 
-    
-    return df_accum
+    df_accum = pd.concat(list_of_df, axis=1, ignore_index=True) 
+    return df_accum.T
 
 
 def get_apikey(key_name:str, json_filename="secret.json") -> str:
@@ -65,7 +64,6 @@ def save_climate_data_to_csv(start_day, last_day):
     start = time.time()
     API_KEY = get_apikey("SEOUL_CLIMATE_API_KEY", json_filename="secret.json")
     fine_dust_data_df = crawling_seoul_climate(API_KEY, start_day, last_day)
-    fine_dust_data_df = fine_dust_data_df.T
     fine_dust_data_df.to_csv('./result.csv', sep=',', na_rep='NaN')
     print("실행 시간 :", time.time() - start)
 
