@@ -30,8 +30,8 @@ def crawling_seoul_climate(api_key:str, start_day:str, end_day:str) -> pd.DataFr
 
             fine_dust_api_result_data_dict[day] = response_json['DailyAverageCityAir']['row']
 
-            for i in fine_dust_api_result_data_dict[day]:
-                df = pd.DataFrame.from_dict(i, orient='index')
+            for data in fine_dust_api_result_data_dict[day]:
+                df = pd.DataFrame.from_dict(data, orient='index')
                 list_of_df.append(df)
         
 
