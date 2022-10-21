@@ -68,4 +68,5 @@ def save_climate_data_to_csv():
     print("실행 시간 :", time.time() - start)
 
 
-save_climate_data_to_csv()
+if __name__ == "__main__":
+    save_climate_data_to_csv()
