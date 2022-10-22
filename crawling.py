@@ -5,7 +5,7 @@ import os
 import json
 import time
 from pathlib import Path
-import configparser
+import yaml
 
 def date_range(start:str, end:str) -> list:
     start = datetime.strptime(start, "%Y-%m-%d")
@@ -69,8 +69,8 @@ def save_climate_data_to_csv(start_day, last_day):
 
 
 if __name__ == "__main__":
-    config = configparser.ConfigParser()
-    config.read('./config.ini', encoding='utf-8') 
-    start_day = config['CRAWLING_DAY']['START_DAY']
-    last_day = config['CRAWLING_DAY']['LAST_DAY']
+    with open('config.yaml', 'r') as f:
+        config = yaml.load(f, Loader=yaml.FullLoader)
+    start_day = config['CRAWLING_START_DAY']
+    last_day = config['CRAWLING_LAST_DAY']
     save_climate_data_to_csv(start_day, last_day)
