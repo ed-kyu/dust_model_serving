@@ -1,6 +1,6 @@
-from model import LSTM
 import torch
 from sklearn.preprocessing import MinMaxScaler
+from app.model import LSTM
 from app.preprocess_data import preprocess_data
 from pathlib import Path
 import os
