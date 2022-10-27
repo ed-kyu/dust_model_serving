@@ -25,6 +25,7 @@ def crawling_seoul_climate(api_key:str, start_day:str, end_day:str) -> pd.DataFr
         url = f'http://openAPI.seoul.go.kr:8088/{api_key}/json/DailyAverageCityAir/1/25/{day}'
         response = requests.get(url)
         response_json = response.json()
+        day = datetime.strptime(day, "%Y%m%d").strftime("%Y-%m-%d")
 
         if response.status_code == 200 and 'DailyAverageCityAir' in response_json:
 
@@ -34,8 +35,8 @@ def crawling_seoul_climate(api_key:str, start_day:str, end_day:str) -> pd.DataFr
                 df = pd.DataFrame.from_dict(data, orient='index')
                 list_of_df.append(df)
         
+    df_accum = pd.concat(list_of_df, axis=1, ignore_index=True)
 
-    df_accum = pd.concat(list_of_df, axis=1, ignore_index=True) 
     return df_accum.T
 
 
