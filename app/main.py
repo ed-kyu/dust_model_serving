@@ -1,5 +1,10 @@
 from fastapi import FastAPI, HTTPException
 import uvicorn
+from inferences import inference
+import yaml
+import os
+from datetime import datetime, timedelta
+from pathlib import Path
 
 app = FastAPI()
 
@@ -16,10 +21,24 @@ async def read_region(region: str = "마포구"):
     '중랑구': 10, '강북구': 11, '중구': 12, '금천구': 13, '성동구': 14, '성북구': 15, 
     '강동구': 16, '광진구': 17, '강남구': 18, '서대문구': 19, '용산구': 20, '마포구': 21, 
     '양천구': 22, '구로구': 23, '강서구': 24}
-    if region in region_dict:
-        return {
-            region : "아직 예측중"
-        }
+
+    file_path = Path(__file__).resolve().parent
+    with open(os.path.join(file_path.parent, 'config.yaml'), 'r') as f:
+        config = yaml.load(f, Loader=yaml.FullLoader)
+    last_day = config['CRAWLING_LAST_DAY']
+    last_day = datetime.strptime(last_day, '%Y-%m-%d')
+
+    if region in region_dict:   
+        result = inference(region_dict[region])
+        result_json = {   
+            "region": region,
+            "prediction": []
+            }
+        for val in result:
+            last_day += timedelta(days=1)
+            result_json['prediction'].append({'day': str(last_day)[:10],'PM10': round(val.item(), 3)})
+        return result_json
+
     else:
         raise HTTPException(status_code=404, detail="Region not found")
 
