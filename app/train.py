@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from model import LSTM
 from sklearn.preprocessing import MinMaxScaler
-from preprocess_data import preprocess_data
+from app.preprocess_data import preprocess_data
 from pathlib import Path
 import os
 

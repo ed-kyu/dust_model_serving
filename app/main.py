@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 import uvicorn
-from inferences import inference
+from app.inferences import inference
 import yaml
 import os
 from datetime import datetime, timedelta
@@ -14,7 +14,7 @@ def hello():
         "Hello":"World"
     }
 
-@app.get("/predict/")
+@app.get("/predict")
 async def read_region(region: str = "마포구"):
     region_dict = {'송파구': 0, '종로구': 1, '서초구': 2, '은평구': 3, 
     '동작구': 4, '동대문구': 5, '노원구': 6, '관악구': 7, '도봉구': 8, '영등포구': 9, 
