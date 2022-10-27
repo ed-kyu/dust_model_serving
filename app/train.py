@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from sklearn.preprocessing import MinMaxScaler
-from app.model import LSTM
-from app.preprocess_data import preprocess_data
+from model import LSTM
+from preprocess_data import preprocess_data
 from pathlib import Path
 import os
 
@@ -19,7 +19,7 @@ def create_inout_sequences(input_data, tw):
 
 def train(train_data_normalized, train_window, i):
     train_inout_seq = create_inout_sequences(train_data_normalized, train_window)
-    epochs = 30
+    epochs = 20
 
     model = LSTM()
     loss_function = nn.MSELoss()

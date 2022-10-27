@@ -42,7 +42,7 @@ def preprocess_data():
 
     df['날짜'] = df['날짜'].map(date_to_range_dict)
 
-    df1 = df[(df['PM10'] != 0.0) & (df['PM10'] < 250)]
+    df1 = df[df['PM10'] < 250]
     df1 = df1[(df1['CO'] < 3)]
 
     # not_number_list = ['지역권', '지역']

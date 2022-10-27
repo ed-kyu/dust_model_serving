@@ -15,8 +15,18 @@ def hello():
     }
 
 @app.get("/predict")
-async def read_region(region: str = "마포구"):
-    region_dict = {'송파구': 0, '종로구': 1, '서초구': 2, '은평구': 3, 
+def read_region(city: str = "마포구"):
+    region_dict = {
+        '송파구': 2, '종로구': 4, '서초구': 0, '은평구': 1, 
+    '동작구': 4, '동대문구': 1, '노원구': 3, '관악구': 4, '도봉구': 4, '영등포구': 4, 
+    '중랑구': 4, '강북구': 4, '중구': 2, '금천구': 2, '성동구': 3, '성북구': 4, 
+    '강동구': 0, '광진구': 2, '강남구': 3, '서대문구': 2, '용산구': 1, '마포구': 2, 
+    '양천구': 2, '구로구': 0, '강서구': 3
+    }
+    region_num_to_str = {
+        0: '서북권', 1: '도심권', 2: '서남권', 3: '동남권', 4: '동북권'
+    }
+    city_dict = {'송파구': 0, '종로구': 1, '서초구': 2, '은평구': 3, 
     '동작구': 4, '동대문구': 5, '노원구': 6, '관악구': 7, '도봉구': 8, '영등포구': 9, 
     '중랑구': 10, '강북구': 11, '중구': 12, '금천구': 13, '성동구': 14, '성북구': 15, 
     '강동구': 16, '광진구': 17, '강남구': 18, '서대문구': 19, '용산구': 20, '마포구': 21, 
@@ -28,10 +38,11 @@ async def read_region(region: str = "마포구"):
     last_day = config['CRAWLING_LAST_DAY']
     last_day = datetime.strptime(last_day, '%Y-%m-%d')
 
-    if region in region_dict:   
-        result = inference(region_dict[region])
-        result_json = {   
-            "region": region,
+    if city in region_dict:   
+        result = inference(city_dict[city])
+        result_json = {
+            "region": region_num_to_str[region_dict[city]], 
+            "city": city,
             "prediction": []
             }
         for val in result:
